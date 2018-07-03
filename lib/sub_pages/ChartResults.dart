@@ -10,6 +10,35 @@ const data = [[1.0,0.0], [2.0,-0.2], [3.0,-0.9], [4.0,-0.5], [5.0,0.0], [6.0,0.5
 
 
 class Chart extends StatelessWidget {
+
+  //made each container a column variable
+  //will display each column variable stacked on top of each other
+  var buttonCol = Container(
+    padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+    child: Column(
+      children:[
+        new Text("Buttons here"),
+        new Text("More buttons!!!!"),
+      ],
+    ),
+  );
+
+  var chartCol = Container(
+    padding: EdgeInsets.fromLTRB(20.0, 30.0, 20.0, 20.0),
+    child: Column(
+      children: <Widget>[
+        new LineChart(lines: [
+          new Line<List<double>, double, double>(
+            data: data,
+            xFn: (datum) => datum[0],
+            yFn: (datum) => datum[1],
+          ),
+        ],chartPadding: new EdgeInsets.fromLTRB(50.0, 10.0, 10.0, 30.0),
+  )
+      ],
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     return new LineChart(

@@ -8,7 +8,7 @@ import 'package:glucose_plus/sub_pages/Biometrics.dart';
 import 'package:glucose_plus/sub_pages/Hb1acCalc.dart';
 import 'package:glucose_plus/sub_pages/NewReading.dart';
 import 'package:glucose_plus/sub_pages/Home.dart';
-import 'package:flutter_blue/flutter_blue.dart';
+import 'package:glucose_plus/sub_pages/send_email.dart';
 
 import 'package:flutter/material.dart';
 

@@ -15,7 +15,7 @@ dependencies:
   css_colors:
   flutter_blue: ^0.3.3
   fcharts: ^0.0.9
-  mailer: ^1.1.4
+  mailer3: ^1.1.9
 
 dev_dependencies:
   flutter_test:
