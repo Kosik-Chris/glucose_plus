@@ -20,7 +20,7 @@ class DrawerItem {
 
 class HomePage extends StatefulWidget {
   final drawerItems = [
-    new DrawerItem("Home", Icons.home),
+    new DrawerItem("Glucose+  Home", Icons.home),
     new DrawerItem("Account", Icons.account_circle),
     new DrawerItem("Bluetooth configuration", Icons.settings_bluetooth),
     new DrawerItem("Chemical configuration", Icons.local_bar),

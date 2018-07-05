@@ -11,6 +11,17 @@ const data = [[1.0,0.0], [2.0,-0.2], [3.0,-0.9], [4.0,-0.5], [5.0,0.0], [6.0,0.5
 
 class Chart extends StatelessWidget {
 
+/*  Widget buttonSection = Container(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        buildButtonColumn(Icons.call, 'CALL'),
+        buildButtonColumn(Icons.near_me, 'ROUTE'),
+        buildButtonColumn(Icons.share, 'SHARE'),
+      ],
+    ),
+  );*/
+
   //made each container a column variable
   //will display each column variable stacked on top of each other
   var buttonCol = Container(
