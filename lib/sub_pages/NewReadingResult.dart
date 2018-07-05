@@ -9,7 +9,7 @@ const data = [[1.0,0.0], [2.0,-0.2], [3.0,-0.9], [4.0,-0.5], [5.0,0.0], [6.0,0.5
 [7.0,0.6], [8.0,0.9], [9.0,0.8], [10.0,1.2], [11.0,0.5], [12.0,0.0]];
 
 
-class Charts extends StatelessWidget {
+class NewResults extends StatelessWidget {
 
 /*  Widget buttonSection = Container(
     child: Row(
@@ -45,22 +45,19 @@ class Charts extends StatelessWidget {
             yFn: (datum) => datum[1],
           ),
         ],chartPadding: new EdgeInsets.fromLTRB(50.0, 10.0, 10.0, 30.0),
-  )
+        )
       ],
     ),
   );
 
   @override
   Widget build(BuildContext context) {
-    return new LineChart(
-      lines: [
-        new Line<List<double>, double, double>(
-          data: data,
-          xFn: (datum) => datum[0],
-          yFn: (datum) => datum[1],
-        ),
-      ],
-      chartPadding: new EdgeInsets.fromLTRB(50.0, 10.0, 10.0, 30.0),
+    return new ListView(
+        children: <Widget>[
+          buttonCol,
+          chartCol
+        ],
+
     );
   }
 }

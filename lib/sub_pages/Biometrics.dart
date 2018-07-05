@@ -5,7 +5,7 @@ class Biometrics extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Center(
-      child: new Text("Hello biometrics"),
+      child: new Text("TODO: Implement over previous java code"),
     );
   }
 

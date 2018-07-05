@@ -5,7 +5,7 @@ class Account extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Center(
-      child: new Text("Hello Account"),
+      child: new Text("Firebase RTDB explanation"),
     );
   }
 

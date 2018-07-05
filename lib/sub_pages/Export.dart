@@ -8,7 +8,8 @@ class Export extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Center(
-      child: new Text("Hello export"),
+      child: new Text("TODO: properly implement email function. Completed: save"
+          "to device internal storage"),
     );
   }
 

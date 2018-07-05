@@ -56,7 +56,7 @@ class HomePageState extends State<HomePage> {
       case 5:
         return new Numerical();
       case 6:
-        return new Chart();
+        return new Charts();
       case 7:
         return new Export();
       case 8:

@@ -5,7 +5,7 @@ class Hb1Calc extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return new Center(
-      child: new Text("Hello blood sugar"),
+      child: new Text("TODO: implement previously generated java code"),
     );
   }
 
