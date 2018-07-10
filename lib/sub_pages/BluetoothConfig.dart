@@ -209,7 +209,7 @@ class _BluetoothState extends State<Bluetooth> {
     ))
         .toList();
   }
-
+//Widgets are flexible but highly nested!! declare variables eslewhere!!
   List<Widget> _buildServiceTiles() {
     return services
         .map(
