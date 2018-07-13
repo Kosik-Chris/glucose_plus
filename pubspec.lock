@@ -104,6 +104,18 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.3"
+  flutter_localizations:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_native_timezone:
+    dependency: transitive
+    description:
+      name: flutter_native_timezone
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -317,6 +329,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
+  sliver_calendar:
+    dependency: "direct main"
+    description:
+      name: sliver_calendar
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5"
   source_map_stack_trace:
     dependency: transitive
     description:
@@ -373,6 +392,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.37"
+  timezone:
+    dependency: transitive
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: "423a4ce96a30960c47ae8db66a187fc498c5e4b4"
+      url: "https://github.com/pinkfish/timezone.git"
+    source: git
+    version: "0.5.0-dev-2"
   typed_data:
     dependency: transitive
     description:

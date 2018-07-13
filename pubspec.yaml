@@ -1,6 +1,6 @@
 name: glucose_plus
 description: Portable lab chemical sensor with additional glucose functionality
-version: 0.0.1
+version: 0.0.2
 author: kosik.chris.j@gmail.com
 
 
@@ -16,6 +16,8 @@ dependencies:
   flutter_blue: ^0.3.3
   fcharts: ^0.0.9
   mailer3: ^1.1.9
+  sliver_calendar: ^0.0.5
+
 
 dev_dependencies:
   flutter_test:
@@ -34,7 +36,10 @@ flutter:
   uses-material-design: true
 
   assets:
-  - resources/pics/
+    - sensor_pic.jpg
+    - 2018c.tzf
+    - calendarbanner.jpg
+    - calendarheader.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
