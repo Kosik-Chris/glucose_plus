@@ -9,19 +9,14 @@ const data = [[1.0,0.0], [2.0,-0.2], [3.0,-0.9], [4.0,-0.5], [5.0,0.0], [6.0,0.5
 [7.0,0.6], [8.0,0.9], [9.0,0.8], [10.0,1.2], [11.0,0.5], [12.0,0.0]];
 
 
-class NewResults extends StatelessWidget {
+class NewResults extends StatefulWidget {
 
-/*  Widget buttonSection = Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        buildButtonColumn(Icons.call, 'CALL'),
-        buildButtonColumn(Icons.near_me, 'ROUTE'),
-        buildButtonColumn(Icons.share, 'SHARE'),
-      ],
-    ),
-  );*/
+  State<StatefulWidget> createState(){
+    return new NewResultsMainState();
+  }
+}
 
+class NewResultsMainState extends State<NewResults> {
   //made each container a column variable
   //will display each column variable stacked on top of each other
   var buttonCol = Container(
@@ -52,12 +47,16 @@ class NewResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new ListView(
+    return new MaterialApp(
+      home: new Scaffold(
+     body: new ListView(
         children: <Widget>[
           buttonCol,
           chartCol
         ],
 
+    ),
+    ),
     );
   }
 }

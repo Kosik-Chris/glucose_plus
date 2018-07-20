@@ -73,9 +73,9 @@ class _NumericalState extends State<Numerical>{
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text(widget.title),
-      ),
+//      appBar: new AppBar(
+//        title: new Text(widget.title),
+//      ),
       body: new Column(
         children: <Widget>[
           new FutureBuilder(

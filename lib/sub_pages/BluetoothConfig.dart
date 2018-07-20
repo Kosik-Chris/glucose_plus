@@ -209,7 +209,7 @@ class _BluetoothState extends State<Bluetooth> {
     ))
         .toList();
   }
-//Widgets are flexible but highly nested!! declare variables eslewhere!!
+//Widgets are flexible but highly nested!! declare variables elsewhere!!
   List<Widget> _buildServiceTiles() {
     return services
         .map(
@@ -281,21 +281,45 @@ class _BluetoothState extends State<Bluetooth> {
         ));
   }
 
+//  var outputField = new TextField(
+//    decoration: InputDecoration(
+//        border: InputBorder.none,
+//        hintText: 'Please enter values to send'
+//    ),
+//  );
+
   _buildProgressBarTile() {
     return new LinearProgressIndicator();
   }
 
+//  _buildWriteOutput(){
+//    outputField;
+//  }
+//
+//  _buildReadInput(){
+//    return new TextField(
+//      decoration: InputDecoration(
+//          border: InputBorder.none,
+//          hintText: 'Please enter values to send'
+//      ),
+//    );
+//  }
+
   @override
   Widget build(BuildContext context) {
-    var tiles = new List<Widget>();
+    var connectTiles = new List<Widget>();
+//    var readTiles = new List<Widget>();
+    //not sure how to read in values yet
+
     if (state != BluetoothState.on) {
-      tiles.add(_buildAlertTile());
+      connectTiles.add(_buildAlertTile());
     }
     if (isConnected) {
-      tiles.add(_buildDeviceStateTile());
-      tiles.addAll(_buildServiceTiles());
+      connectTiles.add(_buildDeviceStateTile());
+      connectTiles.addAll(_buildServiceTiles());
+//      connectTiles.add(_buildActionButtons());
     } else {
-      tiles.addAll(_buildScanResultTiles());
+      connectTiles.addAll(_buildScanResultTiles());
     }
     return new MaterialApp(
       home: new Scaffold(
@@ -307,9 +331,13 @@ class _BluetoothState extends State<Bluetooth> {
         body: new Stack(
           children: <Widget>[
             (isScanning) ? _buildProgressBarTile() : new Container(),
+//            (isConnected) ? _buildWriteOutput() : new Container(),
             new ListView(
-              children: tiles,
-            )
+              children: connectTiles,
+            ),
+//            new ListView(
+//              children: readTiles,
+//            ),
           ],
         ),
       ),

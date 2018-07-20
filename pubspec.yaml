@@ -40,6 +40,8 @@ flutter:
     - 2018c.tzf
     - calendarbanner.jpg
     - calendarheader.png
+    - baseline-bluetooth_connected-24px.png
+    - baseline-bluetooth_disabled-24px.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
+import 'package:glucose_plus/main_pages/home_page.dart';
 import 'package:glucose_plus/sub_pages/ChartResults.dart';
 import 'package:glucose_plus/sub_pages/NewReading.dart';
 import 'package:glucose_plus/sub_pages/ChemicalConfig.dart';
@@ -13,7 +14,7 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-
+   int _selectedDrawerIndex = 0;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -31,92 +32,6 @@ class HomeState extends State<Home> {
       fit: BoxFit.cover,
     ),
     titleSection,
-    Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-    Column(
-    mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-    Icon(Icons.track_changes),
-    Container(
-    margin: const EdgeInsets.only(top: 8.0),
-/*          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),*/
-    child: RaisedButton(
-    padding: const EdgeInsets.all(8.0),
-    textColor: Colors.white,
-    color: Colors.blue,
-    onPressed: (){
-      Navigator.push(context, MaterialPageRoute(builder: (context) => NewReading())
-      );
-    },
-    child: new Text('New Reading'),
-    )
-    ),
-    ],
-    ),
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.local_bar),
-        Container(
-            margin: const EdgeInsets.only(top: 8.0),
-/*          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),*/
-            child: RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Chemicals())
-                );
-              },
-              child: new Text('Chemical Config'),
-            )
-        ),
-      ],
-    ),
-    Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.insert_chart),
-        Container(
-            margin: const EdgeInsets.only(top: 8.0),
-/*          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),*/
-            child: RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue,
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => Charts())
-                );
-              },
-              child: new Text('Graph results'),
-            )
-        ),
-      ],
-    ),
-      ],
-    ),
     scndSection,
     ],
     );

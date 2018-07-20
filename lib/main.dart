@@ -5,6 +5,7 @@ import 'package:timezone/timezone.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'dart:math';
+import 'package:flutter_blue/flutter_blue.dart';
 import 'dart:typed_data';
 import 'dart:async';
 
@@ -22,9 +23,12 @@ runApp(new GlucosePlusApp());
 }
 
 class GlucosePlusApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // root widget
+  //Initialize Bluetooth request here
   @override
   Widget build(BuildContext context) {
+
+
     return new MaterialApp(
       title: 'Glucose+',
       theme: new ThemeData(
