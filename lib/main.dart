@@ -6,11 +6,14 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'dart:math';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:glucose_plus/main_pages/intro_page.dart';
 import 'dart:typed_data';
 import 'dart:async';
 
 void main() async{
 ByteData loadedData;
+
+
 
 await Future.wait([
 rootBundle.load('2018c.tzf').then((ByteData data) {
@@ -33,8 +36,10 @@ class GlucosePlusApp extends StatelessWidget {
       title: 'Glucose+',
       theme: new ThemeData(
         primarySwatch: Colors.cyan,
+        fontFamily: 'icomoon',
       ),
-      home: new HomePage(),
+      home: new IntroPage(),
+
     );
   }
 }

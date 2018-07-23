@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/sub_pages/NewReadingResult.dart';
 import 'package:path/path.dart';
-import 'package:fcharts/fcharts.dart';
+import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
 import 'package:flutter_blue/flutter_blue.dart';
+import 'package:glucose_plus/record_pages/chemical_list.dart';
 
 
 class DrawerItem {
@@ -27,6 +28,9 @@ class NewReading extends StatefulWidget {
 }
 
   class NewReadingMainState extends State<NewReading> {
+
+    Chemicals selectedChemical;
+
     FlutterBlue _flutterBlue = FlutterBlue.instance;
 
     /// State
@@ -83,7 +87,7 @@ class NewReading extends StatefulWidget {
         theme: new ThemeData(
           primaryColor: const Color(0xFF229E9C),
         ),
-        title: 'Branch Setup',
+        title: 'Glucose+',
     home: new Scaffold(
       body: new Container(
      child: new Row(
@@ -96,11 +100,8 @@ class NewReading extends StatefulWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Text(
-                      "Ensure Bluetooth connection is configured.",
-                      style: new TextStyle(fontSize:18.0,
-                          color: Colors.black,
-                          fontFamily: "Roboto")
+                  new ButtonBar(
+
                   )
                 ]
 
@@ -114,14 +115,15 @@ class NewReading extends StatefulWidget {
           backgroundColor: const Color(0xFF0099ed),
           child: new Icon(Icons.track_changes),
           onPressed: (){
-            checkBlueTooth();
-            sendChemSelect();
-            receiveValues();
-            buildOutput();
+//            checkBlueTooth();
+//            sendChemSelect();
+//            receiveValues();
+//            buildOutput();
+
             //User can select whether to save, send, discard.
             //Add other features later.
-//            Navigator.push(
-//            context, MaterialPageRoute(builder: (context) => NewResults()));
+            Navigator.push(
+            context, MaterialPageRoute(builder: (context) => NewResults()));
           }
 
       ),
@@ -130,16 +132,17 @@ class NewReading extends StatefulWidget {
   }
 
   checkBlueTooth(){
-
+    //TODO GIT GUD at BLE
       if(isConnected == true){
         //proceed
       }
       else{
-        //Bring up window to connect to bluetooth device
+
 
       }
   }
   sendChemSelect(){
+      //TODO PASS SELECTION VALUES
     //check if using selected chemical or sending custom setting values
     //check to make sure if ok
     //send values to MCU

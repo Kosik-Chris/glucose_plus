@@ -30,6 +30,10 @@ class _BluetoothState extends State<Bluetooth> {
   Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
+
+
+
+
   @override
   void initState() {
     super.initState();
@@ -250,6 +254,7 @@ class _BluetoothState extends State<Bluetooth> {
       ];
     }
   }
+
 
   _buildAlertTile() {
     return new Container(

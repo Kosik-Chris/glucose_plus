@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fcharts/fcharts.dart';
+import 'package:glucose_plus/record_pages/chart_choices.dart';
 
 
 /// chart data. Update/ receive this information from the new reading class
@@ -23,31 +24,9 @@ class Charts extends StatefulWidget {
 class _ChartsState extends State<Charts> with SingleTickerProviderStateMixin{
 
 
-//  var chartCol = Container(
-//    child: Column(
-//      children: <Widget>[
-//        new LineChart(lines: [
-//          new Line<List<double>, double, double>(
-//            data: data,
-//            xFn: (datum) => datum[0],
-//            yFn: (datum) => datum[1],
-//          ),
-//        ],chartPadding: new EdgeInsets.fromLTRB(50.0, 10.0, 10.0, 30.0),
-//        )
-//      ],
-//    ),
-//  );
-
   @override
   Widget build(BuildContext context) {
-//    return new LineChart(lines: [
-//      new Line<List<double>, double, double>(
-//        data: data,
-//        xFn: (datum) => datum[0],
-//        yFn: (datum) => datum[1],
-//      ),
-//    ],chartPadding: new EdgeInsets.fromLTRB(50.0, 10.0, 10.0, 30.0),
-//    );
+
     final xAxis = new ChartAxis<double>(
       span: new DoubleSpan(0.0, 12.0),
       tickGenerator: IntervalTickGenerator.byN(1.0),
@@ -103,16 +82,3 @@ class _ChartsState extends State<Charts> with SingleTickerProviderStateMixin{
   }
 }
 
-class Choice {
-  const Choice({this.title, this.icon});
-
-  final String title;
-  final IconData icon;
-}
-
-const List<Choice> choices = const <Choice>[
-  const Choice(title: 'Save', icon: Icons.save),
-  const Choice(title: 'Change graph type', icon: Icons.gradient),
-  const Choice(title: 'Load external data', icon: Icons.file_upload),
-  const Choice(title: 'Export Graph', icon: Icons.file_download)
-];

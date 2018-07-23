@@ -17,6 +17,7 @@ dependencies:
   fcharts: ^0.0.9
   mailer3: ^1.1.9
   sliver_calendar: ^0.0.5
+  flutter_simple_permissions: ^0.0.1
 
 
 dev_dependencies:
@@ -34,6 +35,10 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+#  fonts:
+#    - family:     icomoon
+#      fonts:
+#        - asset:  icomoon.ttf
 
   assets:
     - sensor_pic.jpg
@@ -42,6 +47,8 @@ flutter:
     - calendarheader.png
     - baseline-bluetooth_connected-24px.png
     - baseline-bluetooth_disabled-24px.png
+    - glucoseplusicon.png
+    - chemicalsicon.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
