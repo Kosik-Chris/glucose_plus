@@ -116,6 +116,7 @@ class NewReading extends StatefulWidget {
           child: new Icon(Icons.track_changes),
           onPressed: (){
             //TODO TESTING WEBHOOK
+            //TAKE 2
 //            checkBlueTooth();
 //            sendChemSelect();
 //            receiveValues();
