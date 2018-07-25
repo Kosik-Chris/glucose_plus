@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
+import 'package:glucose_plus/record_pages/units.dart';
 
 
 class DrawerItem {
@@ -29,7 +30,9 @@ class NewReading extends StatefulWidget {
 
   class NewReadingMainState extends State<NewReading> {
 
-    Chemicals selectedChemical;
+    Chemicals _selectedChemical;
+    Units _selectedUnit;
+    int _bottomNavBarIndex = 0;
 
     FlutterBlue _flutterBlue = FlutterBlue.instance;
 
@@ -55,6 +58,8 @@ class NewReading extends StatefulWidget {
     @override
     void initState() {
       super.initState();
+
+
       // Immediately get the state of FlutterBlue
       _flutterBlue.state.then((s) {
         setState(() {
@@ -81,59 +86,142 @@ class NewReading extends StatefulWidget {
     }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return new MaterialApp(
-        theme: new ThemeData(
-          primaryColor: const Color(0xFF229E9C),
-        ),
-        title: 'Glucose+',
-    home: new Scaffold(
-      body: new Container(
-     child: new Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    @override
+    Widget build(BuildContext context) {
+          return new MaterialApp(
+              theme: new ThemeData(
+              primaryColor: Colors.cyan,
+          ),
+      title: 'Glucose+',
+      home: new Scaffold(
+        body: Stack(
+          fit: StackFit.expand,
           children: <Widget>[
-            new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  new ButtonBar(
-
-                  )
-                ]
-
+            Container(
+              decoration: BoxDecoration(color: Colors.cyanAccent),
             ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                ButtonBar(
+
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    new DropdownButton<Chemicals>(
+                        hint: new Text("Select Chemical"),
+                        value: _selectedChemical,
+
+                        items: ChemicalsValues.map((Chemicals chemical) {
+                          return new DropdownMenuItem<Chemicals>(
+                            value: chemical,
+                            child: new Text(chemical.title,
+                              style: new TextStyle(color: Colors.black),
+                            ),
+                          );
+                        }
+                        ).toList(),
+                        onChanged: (Chemicals newChem) {
+                          setState(() {
+                            _selectedChemical = newChem;
+                          });
+
+                        }
+                    ),
+                    new DropdownButton<Units>(
+                        hint: new Text("Select Concentration"),
+                        value: _selectedUnit,
+
+                        items: MetricUnits.map((Units unit) {
+                          return new DropdownMenuItem<Units>(
+                            value: unit,
+                            child: new Text(unit.title,
+                              style: new TextStyle(color: Colors.black),
+                            ),
+                          );
+                        }
+                        ).toList(),
+                        onChanged: (Units newUnit) {
+                          setState(() {
+                            _selectedUnit = newUnit;
+                          });
+                        }
+                    ),
+                  ],
+                ),
+              ],
+            )
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
 
-      ),
-      ),
-
-      floatingActionButton: new FloatingActionButton(
-          backgroundColor: const Color(0xFF0099ed),
-          child: new Icon(Icons.track_changes),
-          onPressed: (){
-            //TODO TESTING WEBHOOK
-            //TAKE 2
+            backgroundColor: const Color(0xFF0099ed),
+            child: Icon(Icons.track_changes),
+            onPressed: (){
 //            checkBlueTooth();
 //            sendChemSelect();
 //            receiveValues();
 //            buildOutput();
 
-            //User can select whether to save, send, discard.
-            //Add other features later.
-            Navigator.push(
-            context, MaterialPageRoute(builder: (context) => NewResults()));
-          }
+              //User can select whether to save, send, discard.
+              //Add other features later.
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => NewResults()));
+            }
 
-      ),
-    ),
-    );
-  }
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _bottomNavBarIndex,
+            onTap: (int index){
+              if(index == 0){
+                //save image
 
-  checkBlueTooth(){
+              }
+              if(index == 1){
+                //discard image and return home
+
+              }
+              if(index == 2){
+                //save image and open up email with image attached
+
+              }
+              setState(() {
+                _bottomNavBarIndex = index;
+              });
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.save),
+                title: Text('Voltammetry'),
+
+              ),
+
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.transfer_within_a_station),
+                title: Text('Ammetry'),
+              ),
+
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.exit_to_app),
+                title: Text('Other'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.exit_to_app),
+                title: Text('Other'),
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.exit_to_app),
+                title: Text('Other'),
+              )
+            ]
+
+        ),
+      )
+          );
+    }
+
+
+
+    checkBlueTooth(){
     //TODO GIT GUD at BLE
       if(isConnected == true){
         //proceed

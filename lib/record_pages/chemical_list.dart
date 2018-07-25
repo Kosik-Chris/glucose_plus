@@ -11,6 +11,7 @@ class Chemicals{
 //Store all configuration settings in this constant settings
 const List<Chemicals> ChemicalsValues = const <Chemicals>[
 
+  const Chemicals(title: "NAD+", reference: 0),
   const Chemicals(title: 'Glucose', reference: 1),
   const Chemicals(title: 'Chemical 2', reference: 2),
   const Chemicals(title: 'Chemical 3', reference: 3),

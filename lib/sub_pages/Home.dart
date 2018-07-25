@@ -23,18 +23,32 @@ class HomeState extends State<Home> {
     );*/
 
 //FOR NOW ALL PICS JUST DROPPED INTO HERE
-    return new ListView(
-      children: [
-      Image.asset(
-      "sensor_pic.jpg",
-      width: 600.0,
-      height: 240.0,
-      fit: BoxFit.cover,
+  return new MaterialApp(
+      theme: new ThemeData(
+      primaryColor: Colors.cyan,
+  ),
+    title: 'Glucose+',
+    home: new Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.cyan),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Image(
+                image: AssetImage("sensor_pic.jpg"),
+              ),
+              titleSection,
+              scndSection
+            ],
+          )
+        ],
+      ),
     ),
-    titleSection,
-    scndSection,
-    ],
-    );
+  );
   }
 
   Widget titleSection = Container(
@@ -51,7 +65,8 @@ class HomeState extends State<Home> {
                   'Glucose+ information and usability:',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 18.0
+                    fontSize: 18.0,
+                    color: Colors.white
                   ),
                 ),
               ),
@@ -85,7 +100,8 @@ class HomeState extends State<Home> {
                   'Glucose+ V0.3a',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18.0
+                      fontSize: 18.0,
+                    color: Colors.white
                   ),
                 ),
               ),

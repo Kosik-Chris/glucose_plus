@@ -27,8 +27,8 @@ class HomePage extends StatefulWidget {
   final drawerItems = [
     new DrawerItem("Glucose+  Home", Icons.home),
     new DrawerItem("Account", Icons.account_circle),
-    new DrawerItem("Bluetooth configuration", Icons.settings_bluetooth),
-    new DrawerItem("Chemical configuration", Icons.invert_colors),
+    new DrawerItem("Bluetooth config", Icons.settings_bluetooth),
+    new DrawerItem("Chemical config", Icons.invert_colors),
     new DrawerItem("New reading", Icons.track_changes),
     new DrawerItem("Numerical results", Icons.traffic),
     new DrawerItem("Chart results", Icons.insert_chart),
@@ -42,7 +42,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  String _platformVersion = 'Unknown';
+//  String _platformVersion = 'Unknown';
   bool isPermissionGranted;
   Permission permission = Permission.AccessCoarseLocation;
 
@@ -50,30 +50,30 @@ class HomePageState extends State<HomePage> {
   int selectedOverride = 0;
   bool _bluetoothEnabled = false;
 
-  @override
-  initState() {
-    super.initState();
-    initPlatformState();
-  }
+//  @override
+//  initState() {
+//    super.initState();
+////    initPlatformState();
+//  }
 
-  initPlatformState() async {
-    String platformVersion;
-    // Platform messages may fail, so we use a try/catch PlatformException.
-    try {
-      platformVersion = await FlutterSimplePermissions.platformVersion;
-    } on PlatformException {
-      platformVersion = 'Failed to get platform version.';
-    }
-
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
-    if (!mounted) return;
-
-    setState(() {
-      _platformVersion = platformVersion;
-    });
-  }
+//  initPlatformState() async {
+//    String platformVersion;
+//    // Platform messages may fail, so we use a try/catch PlatformException.
+//    try {
+//      platformVersion = await FlutterSimplePermissions.platformVersion;
+//    } on PlatformException {
+//      platformVersion = 'Failed to get platform version.';
+//    }
+//
+//    // If the widget was removed from the tree while the asynchronous platform
+//    // message was in flight, we want to discard the reply rather than calling
+//    // setState to update our non-existent appearance.
+//    if (!mounted) return;
+//
+//    setState(() {
+//      _platformVersion = platformVersion;
+//    });
+//  }
 
 
   getDrawerItemWidget(int pos) {
@@ -139,10 +139,12 @@ class HomePageState extends State<HomePage> {
     }
 
     return new Scaffold(
+
       appBar: new AppBar(
         // here we display the title corresponding to the fragment
         // you can instead choose to have a static title
-        title: new Text(widget.drawerItems[_selectedDrawerIndex].title),
+        title: new Text(widget.drawerItems[_selectedDrawerIndex].title, style:
+          new TextStyle(color: Colors.white),),
         actions: <Widget>[
           new IconButton(icon: new Icon(Icons.invert_colors), tooltip: 'Configure Chemicals',
               splashColor: Colors.indigo, onPressed: (){
@@ -168,6 +170,7 @@ class HomePageState extends State<HomePage> {
     ),
         ],
       ),
+
       drawer: new Drawer(
         child: ListView(
           padding: EdgeInsets.zero,

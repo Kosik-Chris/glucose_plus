@@ -13,7 +13,8 @@ class IntroPageState extends State<IntroPage>{
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 1), ()=> Navigator.push(context,
+    //Changed to 3 for testing purposes
+    Timer(Duration(seconds: 3), ()=> Navigator.push(context,
         MaterialPageRoute(builder: (context) => HomePage()),
               ));
   }
