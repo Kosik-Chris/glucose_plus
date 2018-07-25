@@ -33,7 +33,7 @@ class HomeState extends State<Home> {
         fit: StackFit.expand,
         children: <Widget>[
           Container(
-            decoration: BoxDecoration(color: Colors.cyan),
+            decoration: BoxDecoration(color: Colors.cyanAccent),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -66,7 +66,7 @@ class HomeState extends State<Home> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18.0,
-                    color: Colors.white
+                    color: Colors.black
                   ),
                 ),
               ),
@@ -101,7 +101,7 @@ class HomeState extends State<Home> {
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,
-                    color: Colors.white
+                    color: Colors.black
                   ),
                 ),
               ),

@@ -26,6 +26,9 @@ class ChemicalsMainState extends State<ChemicalsMain> {
         body: new Container(
           child: new ListView(
             children: <Widget>[
+              Container(
+                decoration: BoxDecoration(color: Colors.cyanAccent),
+              ),
               new Container(
                 margin: const EdgeInsets.all(16.0),
                 child: new Row(

@@ -1,7 +1,13 @@
+import 'dart:async';
+import 'dart:io';
+import 'dart:ui';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:fcharts/fcharts.dart';
+import 'package:flutter/rendering.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
 import 'package:glucose_plus/main_pages/home_page.dart';
+import 'dart:convert';
 
 
 /// chart data. Update/ receive this information from the new reading class
@@ -27,10 +33,44 @@ class NewResults extends StatefulWidget {
 
 class NewResultsMainState extends State<NewResults> with SingleTickerProviderStateMixin {
 
-
+  var scr= new GlobalKey();
   Chemicals selectedChemical;
   int _bottomNavBarIndex = 0;
 
+  main(List<String> arguments){
+    String path = 'X:\\glucose_plus\\storage';
+    list(path);
+  }
+
+  void list(String path){
+    try{
+        Directory root = new  Directory(path);
+        if(root.existsSync()){
+          for(FileSystemEntity f in root.listSync()){
+              print(f.path);
+          }
+        }
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+  bool writeFile(String file, Strind data, FileMode mode){
+    try{
+
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+
+  takescrshot() async {
+    RenderRepaintBoundary boundary = scr.currentContext.findRenderObject();
+    var image = await boundary.toImage();
+    var byteData = await image.toByteData(format: ImageByteFormat.png);
+    var pngBytes = byteData.buffer.asUint8List();
+    print(pngBytes);
+  }
 
   @override
   void dispose() {
@@ -72,21 +112,27 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
          body: Stack(
            fit: StackFit.expand,
            children: <Widget>[
-//             Container(
-//               decoration: BoxDecoration(color: Colors.cyan),
-//             ),
+             Container(
+               decoration: BoxDecoration(color: Colors.cyanAccent),
+             ),
              Column(
                mainAxisAlignment: MainAxisAlignment.start,
                children: <Widget>[
+                 Text("Graph Title", style: TextStyle(fontWeight: FontWeight.bold,
+                     fontSize: 24.0),),
                  ButtonBar(
 
                    mainAxisSize: MainAxisSize.min,
                    children: <Widget>[
-                     new Text("Selected Chemical"),
-                     new Text("Units")
+                     new Text("Selected Chemical", style: TextStyle(fontWeight:
+                     FontWeight.bold, fontSize: 18.0),),
+                     new Text("Units",style: TextStyle(fontWeight:
+                     FontWeight.bold, fontSize: 18.0),)
                    ],
                  ),
-                 AspectRatio(aspectRatio: 3/3,
+                  RepaintBoundary(
+                    key: scr,
+                 child: AspectRatio(aspectRatio: 3/3,
                    child: new LineChart(chartPadding: new EdgeInsets.fromLTRB(50.0, 30.0, 20.0, 10.0),
                        lines: [
                          new Line<List<double>, double, double>(
@@ -128,7 +174,8 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
                          ),
 
                        ]),
-                 ),
+                 )
+                  ),
                ],
              )
            ],
@@ -138,11 +185,25 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
              onTap: (int index){
                if(index == 0){
                  //save image
+                 takescrshot();
 
                }
                if(index == 1){
                  //discard image and return home
+                 //TODO: FIX the exit window feature (context management)
+                AlertDialog dialog = new AlertDialog(
+                  content: new Text("Test Discarded",
+                  style: TextStyle(fontSize: 30.0),),
+                  actions: <Widget>[
+                    new FlatButton(onPressed: (){
+                      Navigator.pop(context);
+                    }, child: Text("Ok")),
 
+                  ],
+
+                );
+                Navigator.pop(context);
+                showDialog(context: context, child: dialog);
                }
                if(index == 2){
                  //save image and open up email with image attached
@@ -176,5 +237,7 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
 
   }
 }
+
+
 
 

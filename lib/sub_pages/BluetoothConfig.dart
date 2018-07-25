@@ -334,7 +334,11 @@ class _BluetoothState extends State<Bluetooth> {
         ),*/
         floatingActionButton: _buildScanningButton(),
         body: new Stack(
+          fit: StackFit.expand,
           children: <Widget>[
+            Container(
+              decoration: BoxDecoration(color: Colors.cyanAccent),
+            ),
             (isScanning) ? _buildProgressBarTile() : new Container(),
 //            (isConnected) ? _buildWriteOutput() : new Container(),
             new ListView(

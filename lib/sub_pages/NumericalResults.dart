@@ -35,6 +35,9 @@ class _NumericalState extends State<Numerical>{
 //      ),
       body: new Column(
         children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.cyanAccent),
+          ),
           new FutureBuilder(
             future: FlutterNativeTimezone.getLocalTimezone(),
             builder: (BuildContext context, AsyncSnapshot<String> tz) {
@@ -70,6 +73,8 @@ class _NumericalState extends State<Numerical>{
 class CalendarEventSource extends CalendarSource {
   List<CalendarEvent> events = [];
   final Location loc;
+
+  //Definitely change to utilize local storage
   Random random = new Random();
 
   CalendarEventSource(this.loc);
@@ -101,8 +106,8 @@ class CalendarEventSource extends CalendarSource {
     return new Card(
       child: new ListTile(
         title: new Text("Event ${index.index}"),
-        subtitle: new Text("Yay for events"),
-        leading: const Icon(Icons.gamepad),
+        subtitle: new Text("event temp"),
+        leading: const Icon(Icons.format_list_numbered),
       ),
     );
   }

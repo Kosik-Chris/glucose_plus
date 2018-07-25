@@ -7,6 +7,9 @@ import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
 import 'package:glucose_plus/record_pages/units.dart';
+import 'package:glucose_plus/dialogue_pages/FrequencyGraphDialogue.dart';
+import 'package:glucose_plus/dialogue_pages/OtherGraphDialogue.dart';
+import 'package:glucose_plus/dialogue_pages/TimeGraphDialogue.dart';
 
 
 class DrawerItem {
@@ -14,9 +17,6 @@ class DrawerItem {
   IconData icon;
   DrawerItem(this.title, this.icon);
 }
-//temp chart data
-const data = [[1.0,0.0], [2.0,-0.2], [3.0,-0.9], [4.0,-0.5], [5.0,0.0], [6.0,0.5],
-[7.0,0.6], [8.0,0.9], [9.0,0.8], [10.0,1.2], [11.0,0.5], [12.0,0.0]];
 
 class NewReading extends StatefulWidget {
 
@@ -33,6 +33,64 @@ class NewReading extends StatefulWidget {
     Chemicals _selectedChemical;
     Units _selectedUnit;
     int _bottomNavBarIndex = 0;
+    String selectedGraph = "current_vs_time.png";
+
+
+
+    String selectedGraphDisplay(){
+      int selectedGraphNum = 0;
+
+      FrequencyGraphDialogState f = new FrequencyGraphDialogState();
+      OtherGraphDialogState o = new OtherGraphDialogState();
+      TimeGraphDialogState t = new TimeGraphDialogState();
+
+      int frequencyHolder = f.graphSelection();
+      int otherHolder = o.graphSelection();
+      int timeHolder = t.graphSelection();
+
+      if(frequencyHolder>0){
+        selectedGraphNum = frequencyHolder;
+      }
+      if(otherHolder>0){
+        selectedGraphNum = otherHolder;
+      }
+      if(timeHolder>0){
+        selectedGraphNum = timeHolder;
+      }
+
+      if(selectedGraphNum == 0){
+        setState(() {
+          selectedGraph = "current_vs_time.png";
+        });
+      }
+      if(selectedGraphNum == 1){
+        setState(() {
+          selectedGraph = "current_vs_frequency.png";
+        });
+      }
+      if(selectedGraphNum == 2){
+        setState(() {
+          selectedGraph = "impedance_vs_frequency.png";
+        });
+      }
+      if(selectedGraphNum == 3){
+        setState(() {
+          selectedGraph = "current_vs_time.png";
+        });
+      }
+      if(selectedGraphNum ==4){
+        setState(() {
+          selectedGraph = "impedance_vs_time.png";
+        });
+      }
+      if(selectedGraphNum == 5){
+        setState(() {
+          selectedGraph = "current_vs_voltage.png";
+        });
+      }
+
+      return selectedGraph;
+    }
 
     FlutterBlue _flutterBlue = FlutterBlue.instance;
 
@@ -146,8 +204,28 @@ class NewReading extends StatefulWidget {
                           });
                         }
                     ),
+
                   ],
                 ),
+                Text(
+                  "Enter Quantity:", textAlign: TextAlign.center,
+                  style: TextStyle(fontWeight: FontWeight.bold,
+                  fontSize: 24.0),
+                ),
+                TextField(
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Enter quantity of chemical'
+                  )),
+                //Add image depending on bottom navbar selection
+                Text("Selected Graph",style: TextStyle(fontWeight:
+                    FontWeight.bold, fontSize: 30.0), textAlign: TextAlign.center,),
+                Image( image: AssetImage(selectedGraphDisplay()),
+
+                ),
+                Text("Fill all fields out then select blue button to proceed",
+                textAlign: TextAlign.left, style: TextStyle(fontWeight: FontWeight.bold),)
               ],
             )
           ],
@@ -173,16 +251,33 @@ class NewReading extends StatefulWidget {
             currentIndex: _bottomNavBarIndex,
             onTap: (int index){
               if(index == 0){
-                //save image
+                //popup window showing selection for frequency graphs
+                Navigator.of(context).push(new MaterialPageRoute(
+                    builder: (BuildContext context){
+                      return new FrequencyGraphDialog();
+                    },
+                    fullscreenDialog: true
+                ));
 
               }
               if(index == 1){
-                //discard image and return home
+                //popup window showing selection for time graphs
+                Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context){
+                    return new TimeGraphDialog();
+                  },
+                    fullscreenDialog: true
+                ));
 
               }
               if(index == 2){
-                //save image and open up email with image attached
-
+                //popup window showing selection for other graphs
+                Navigator.of(context).push(new MaterialPageRoute(
+                  builder: (BuildContext context){
+                    return new OtherGraphDialog();
+                  },
+                    fullscreenDialog: true
+                ));
               }
               setState(() {
                 _bottomNavBarIndex = index;
@@ -190,33 +285,37 @@ class NewReading extends StatefulWidget {
             },
             items: [
               BottomNavigationBarItem(
-                icon: const Icon(Icons.save),
-                title: Text('Voltammetry'),
+                icon: const Icon(Icons.multiline_chart),
+                title: Text('Frequency Graphs'),
 
               ),
 
               BottomNavigationBarItem(
-                icon: const Icon(Icons.transfer_within_a_station),
-                title: Text('Ammetry'),
+                icon: const Icon(Icons.show_chart),
+                title: Text('Time Graphs'),
               ),
 
               BottomNavigationBarItem(
-                icon: const Icon(Icons.exit_to_app),
-                title: Text('Other'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.exit_to_app),
-                title: Text('Other'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.exit_to_app),
-                title: Text('Other'),
+                icon: const Icon(Icons.bubble_chart),
+                title: Text('Other Graphs'),
               )
             ]
 
         ),
       )
           );
+    }
+
+    Future _openFrequencyDialogue() async{
+
+    }
+
+    Future _openTimeDialogue() async{
+
+    }
+
+    Future _openOtherDialogue() async{
+
     }
 
 

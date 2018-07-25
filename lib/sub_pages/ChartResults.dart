@@ -31,6 +31,9 @@ class _ChartsState extends State<Charts> with SingleTickerProviderStateMixin{
 //      ),
       body: new Column(
         children: <Widget>[
+          Container(
+            decoration: BoxDecoration(color: Colors.cyanAccent),
+          ),
           new FutureBuilder(
             future: FlutterNativeTimezone.getLocalTimezone(),
             builder: (BuildContext context, AsyncSnapshot<String> tz) {
@@ -67,6 +70,8 @@ class _ChartsState extends State<Charts> with SingleTickerProviderStateMixin{
 class CalendarEventSource extends CalendarSource {
   List<CalendarEvent> events = [];
   final Location loc;
+
+  //def change to access local storage
   Random random = new Random();
 
   CalendarEventSource(this.loc);
@@ -98,7 +103,7 @@ class CalendarEventSource extends CalendarSource {
     return new Card(
       child: new ListTile(
         title: new Text("Event ${index.index}"),
-        subtitle: new Text("Yay for events"),
+        subtitle: new Text("event temp"),
         leading: const Icon(Icons.gamepad),
       ),
     );

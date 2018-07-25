@@ -18,6 +18,7 @@ dependencies:
   mailer3: ^1.1.9
   sliver_calendar: ^0.0.5
   flutter_simple_permissions: ^0.0.1
+  path_provider: ^0.4.1
 
 
 dev_dependencies:
@@ -49,6 +50,11 @@ flutter:
     - baseline-bluetooth_disabled-24px.png
     - glucoseplusicon.png
     - chemicalsicon.png
+    - impedance_vs_time.png
+    - impedance_vs_frequency.png
+    - current_vs_voltage.png
+    - current_vs_time.png
+    - current_vs_frequency.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
