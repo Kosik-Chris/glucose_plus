@@ -55,12 +55,17 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
     }
   }
 
-  bool writeFile(String file, Strind data, FileMode mode){
+  bool writeFile(String file, String data, FileMode mode){
+    bool result;
     try{
+
+      result =  true;
 
     }catch(e){
       print(e.toString());
+      result =  false;
     }
+    return result;
   }
 
 
@@ -118,6 +123,7 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
              Column(
                mainAxisAlignment: MainAxisAlignment.start,
                children: <Widget>[
+                 // ignore: conflicting_dart_import
                  Text("Graph Title", style: TextStyle(fontWeight: FontWeight.bold,
                      fontSize: 24.0),),
                  ButtonBar(

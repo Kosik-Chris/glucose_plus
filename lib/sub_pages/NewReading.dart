@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:glucose_plus/sub_pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/sub_pages/NewReadingResult.dart';
 import 'package:path/path.dart';
@@ -243,7 +243,7 @@ class NewReading extends StatefulWidget {
               //User can select whether to save, send, discard.
               //Add other features later.
               Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => NewResults()));
+                  context, MaterialPageRoute(builder: (context) => LoadingPage()));
             }
 
         ),
