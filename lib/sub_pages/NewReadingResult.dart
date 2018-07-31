@@ -203,12 +203,14 @@ class NewResultsMainState extends State<NewResults> with SingleTickerProviderSta
                   actions: <Widget>[
                     new FlatButton(onPressed: (){
                       Navigator.pop(context);
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>
+                          HomePage()));
                     }, child: Text("Ok")),
 
                   ],
 
                 );
-                Navigator.pop(context);
+//                Navigator.pop(context);
                 showDialog(context: context, child: dialog);
                }
                if(index == 2){

@@ -152,6 +152,7 @@ class NewReading extends StatefulWidget {
           ),
       title: 'Glucose+',
       home: new Scaffold(
+        resizeToAvoidBottomPadding: false,
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -213,6 +214,7 @@ class NewReading extends StatefulWidget {
                   fontSize: 24.0),
                 ),
                 TextField(
+                  keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
                   decoration: InputDecoration(
                       border: InputBorder.none,

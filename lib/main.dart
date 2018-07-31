@@ -35,6 +35,7 @@ class GlucosePlusApp extends StatelessWidget {
     return new MaterialApp(
       title: 'Glucose+',
       theme: new ThemeData(
+        brightness: Brightness.dark,
         primarySwatch: Colors.cyan,
         fontFamily: 'icomoon',
       ),

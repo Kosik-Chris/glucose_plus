@@ -11,9 +11,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-sdk android:minSdkVersion="20"
-        android:targetSdkVersion= "28"
-        android:maxSdkVersion="28" />
+    <uses-sdk android:minSdkVersion="21"
+        android:targetSdkVersion= "27"
+        android:maxSdkVersion="27" />
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide

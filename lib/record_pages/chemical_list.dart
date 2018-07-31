@@ -1,11 +1,14 @@
 
 
+
+
 class Chemicals{
   const Chemicals({this.title, this.reference});
   final String title;
   //Change list of initializing reference variables later
   //May need to change reference to U-short/ string etc.
   final int reference;
+
 }
 
 //Store all configuration settings in this constant settings
