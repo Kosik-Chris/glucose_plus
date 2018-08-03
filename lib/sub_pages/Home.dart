@@ -97,7 +97,7 @@ class HomeState extends State<Home> {
               Container(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
-                  'Glucose+ V0.3a',
+                  'Glucose+ V0.4a',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18.0,

@@ -20,6 +20,8 @@ dependencies:
   flutter_simple_permissions: ^0.0.1
   path_provider: ^0.4.1
   cloud_firestore: ^0.7.4
+  flutter_radial_menu: ^0.0.1
+  flutter_slidable: ^0.4.0
 
 
 dev_dependencies:

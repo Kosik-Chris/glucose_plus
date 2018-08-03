@@ -135,10 +135,24 @@
             </list>
           </value>
         </entry>
+        <entry key="flutter_radial_menu">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_radial_menu-0.0.1/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="flutter_simple_permissions">
           <value>
             <list>
               <option value="$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_simple_permissions-0.0.1/lib" />
+            </list>
+          </value>
+        </entry>
+        <entry key="flutter_slidable">
+          <value>
+            <list>
+              <option value="$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_slidable-0.4.0/lib" />
             </list>
           </value>
         </entry>
@@ -499,7 +513,9 @@
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/fixnum-0.10.7/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_blue-0.3.3/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_native_timezone-1.0.0/lib" />
+      <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_radial_menu-0.0.1/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_simple_permissions-0.0.1/lib" />
+      <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/flutter_slidable-0.4.0/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/front_end-0.1.0-alpha.12/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/glob-1.1.5/lib" />
       <root url="file://$USER_HOME$/AppData/Roaming/Pub/Cache/hosted/pub.dartlang.org/html-0.13.3/lib" />

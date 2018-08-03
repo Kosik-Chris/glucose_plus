@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
+import 'package:glucose_plus/dialogue_pages/ChemConfigueDialogue.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:glucose_plus/main_pages/Details.dart';
 
 
 class ChemicalsMain extends StatefulWidget{
@@ -13,36 +17,76 @@ class ChemicalsMain extends StatefulWidget{
 
 class ChemicalsMainState extends State<ChemicalsMain> {
 
+  
+
 //  Chemicals selectedChemical;
 //  String configMsg = "HOLDER";
 
   Widget _buildListItem(BuildContext context, DocumentSnapshot document) {
-    return new ListTile(
-      leading: Icon(Icons.invert_colors),
+
+    return new Slidable(
+      delegate: new SlidableDrawerDelegate(),
+      actionExtentRatio: 0.25,
       key: new ValueKey(document.documentID),
-      title: new Container(
-        decoration: new BoxDecoration(
-          border: new Border.all(color: const Color(0x80000000)),
-          borderRadius: new BorderRadius.circular(5.0),
-        ),
-        padding: const EdgeInsets.all(10.0),
-        child: new Row(
-          children: <Widget>[
-            new Expanded(
-              child: new Text(document['title'],
-              style: TextStyle(),),
-            ),
-          ],
+      child: new Container(
+        color: Colors.white,
+        child: new ListTile(
+          leading: new CircleAvatar(
+            backgroundColor: Colors.indigoAccent,
+            child: new Text(document['reference'].toString()),
+            foregroundColor: Colors.white,
+          ),
+          title: new Text(document['title']),
+          subtitle: new Text(document['mode']),
         ),
       ),
-//      onTap: () => Firestore.instance.runTransaction((transaction) async {
-//        DocumentSnapshot freshSnap =
-//        await transaction.get(document.reference);
-//        await transaction.update(
-//            freshSnap.reference, {'reference': freshSnap['reference'] + 1});
-//      }),
+      actions: <Widget>[
+        new IconSlideAction(
+          caption: 'Edit',
+          color: Colors.blue,
+          icon: Icons.edit,
+          onTap: () =>
 
+
+              Navigator.of(context).push(new MaterialPageRoute(
+              builder: (context){
+                Details details = new Details(document['amount'],
+                    document['loadResistor'],document['reference'],
+                    document['title'],document['autoCalibrate'],
+                    document['biasSign'],document['biasVoltage'],
+                    document['chemical'],document['concentration'],
+                    document['currTimeSamplePeriod'],document['gain'],
+                    document['graphType'],document['mode'],
+                    document['refSource'],document['voltCurrSamplePeriod']);
+                return new ChemConfigDialogue(details: details);
+                //send Chem config dialogue values from server
+              },
+              fullscreenDialog: true
+          )),
+        ),
+      ],
+      secondaryActions: <Widget>[
+        new IconSlideAction(
+          caption: 'Delete',
+          color: Colors.red,
+          icon: Icons.delete,
+          onTap: () => _showSnackBar(context,'Delete'),
+        ),
+      ],
     );
+
+////      onTap: () => Firestore.instance.runTransaction((transaction) async {
+////        DocumentSnapshot freshSnap =
+////        await transaction.get(document.reference);
+////        await transaction.update(
+////            freshSnap.reference, {'reference': freshSnap['reference'] + 1});
+////      }),
+//
+//    );
+  }
+
+  void _showSnackBar(BuildContext context, String text) {
+    Scaffold.of(context).showSnackBar(SnackBar(content: new Text(text)));
   }
 
   @override
@@ -66,16 +110,6 @@ class ChemicalsMainState extends State<ChemicalsMain> {
                 _buildListItem(context, snapshot.data.documents[index]),
           );
         }),
-          floatingActionButton: FloatingActionButton(
-
-              backgroundColor: const Color(0xFF0099ed),
-              child: Icon(Icons.edit),
-              onPressed: (){
-
-
-              }
-
-          )
       ),
 
     );
@@ -96,7 +130,6 @@ class ChemicalsMainState extends State<ChemicalsMain> {
 //    }
 //
 //  }
-
-
 }
+
 
