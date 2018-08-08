@@ -4,7 +4,7 @@ import 'package:glucose_plus/dialogue_pages/ChemConfigueDialogue.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/foundation.dart';
-import 'package:glucose_plus/main_pages/Details.dart';
+import 'package:glucose_plus/Firebase/Details.dart';
 
 
 class ChemicalsMain extends StatefulWidget{
@@ -58,6 +58,7 @@ class ChemicalsMainState extends State<ChemicalsMain> {
                     document['currTimeSamplePeriod'],document['gain'],
                     document['graphType'],document['mode'],
                     document['refSource'],document['voltCurrSamplePeriod']);
+                ChemConfigDialogueState(document);
                 return new ChemConfigDialogue(details: details);
                 //send Chem config dialogue values from server
               },
@@ -83,6 +84,10 @@ class ChemicalsMainState extends State<ChemicalsMain> {
 ////      }),
 //
 //    );
+  }
+
+  void updateFirebase(){
+
   }
 
   void _showSnackBar(BuildContext context, String text) {

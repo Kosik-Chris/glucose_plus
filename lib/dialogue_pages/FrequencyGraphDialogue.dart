@@ -33,18 +33,6 @@ class FrequencyGraphDialogState extends State<FrequencyGraphDialog> {
       appBar: new AppBar(
         backgroundColor: Colors.cyan,
         title: const Text('Frequency Graphs', style: TextStyle(color: Colors.white),),
-        actions: [
-          new FlatButton(
-              onPressed: () {
-                //TODO: Handle save - sets chart to view in New Reading
-              },
-              child: new Text('SAVE',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .subhead
-                      .copyWith(color: Colors.white))),
-        ],
       ),
       body: Stack(
         fit: StackFit.expand,
