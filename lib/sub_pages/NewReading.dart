@@ -7,9 +7,9 @@ import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
 import 'package:glucose_plus/record_pages/units.dart';
-import 'package:glucose_plus/dialogue_pages/FrequencyGraphDialogue.dart';
-import 'package:glucose_plus/dialogue_pages/OtherGraphDialogue.dart';
-import 'package:glucose_plus/dialogue_pages/TimeGraphDialogue.dart';
+import 'package:glucose_plus/dialogue_pages/FrequencyGraphDialog.dart';
+import 'package:glucose_plus/dialogue_pages/OtherGraphDialog.dart';
+import 'package:glucose_plus/dialogue_pages/TimeGraphDialog.dart';
 
 
 class DrawerItem {

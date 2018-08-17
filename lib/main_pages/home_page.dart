@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'package:flutter/services.dart';
-import 'package:glucose_plus/main_pages/widgets.dart';
 import 'package:glucose_plus/sub_pages/Account.dart';
 import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
 import 'package:glucose_plus/sub_pages/ChemicalConfig.dart';
@@ -8,12 +5,12 @@ import 'package:glucose_plus/sub_pages/NumericalResults.dart';
 import 'package:glucose_plus/sub_pages/ChartResults.dart';
 import 'package:glucose_plus/sub_pages/Export.dart';
 import 'package:glucose_plus/sub_pages/NewReadingResult.dart';
-import 'package:glucose_plus/sub_pages/Biometrics.dart';
-import 'package:glucose_plus/sub_pages/Hb1acCalc.dart';
 import 'package:glucose_plus/sub_pages/NewReading.dart';
 import 'package:glucose_plus/sub_pages/Home.dart';
-import 'package:flutter_blue/flutter_blue.dart';
 import 'package:flutter_simple_permissions/flutter_simple_permissions.dart';
+import 'package:flutter_blue/flutter_blue.dart';
+import 'dart:async';
+
 
 import 'package:flutter/material.dart';
 
@@ -42,6 +39,142 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
+
+
+  FlutterBlue _flutterBlue = FlutterBlue.instance;
+  String connectedName = "";
+
+  /// Scanning
+  StreamSubscription _scanSubscription;
+  Map<DeviceIdentifier, ScanResult> scanResults = new Map();
+  bool isScanning = false;
+
+  /// State
+  StreamSubscription _stateSubscription;
+  BluetoothState state = BluetoothState.unknown;
+
+  /// Device
+  BluetoothDevice device;
+  bool get isConnected => (device != null);
+  StreamSubscription deviceConnection;
+  StreamSubscription deviceStateSubscription;
+  List<BluetoothService> services = new List();
+  Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
+  BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
+
+
+
+
+
+  @override
+  void initState() {
+    super.initState();
+    // Immediately get the state of FlutterBlue
+    _flutterBlue.state.then((s) {
+      setState(() {
+        state = s;
+      });
+    });
+    // Subscribe to state changes
+    _stateSubscription = _flutterBlue.onStateChanged().listen((s) {
+      setState(() {
+        state = s;
+      });
+    });
+  }
+
+
+  @override
+  void dispose() {
+    _stateSubscription?.cancel();
+    _stateSubscription = null;
+    _scanSubscription?.cancel();
+    _scanSubscription = null;
+//    deviceConnection?.cancel();
+//    deviceConnection = null;
+    super.dispose();
+  }
+
+  _startScan() {
+    _scanSubscription = _flutterBlue
+        .scan(
+      timeout: const Duration(seconds: 5),
+      /*withServices: [
+          new Guid('0000180F-0000-1000-8000-00805F9B34FB')
+        ]*/
+    )
+        .listen((scanResult) {
+      print('localName: ${scanResult.advertisementData.localName}');
+      print(
+          'manufacturerData: ${scanResult.advertisementData.manufacturerData}');
+      print('serviceData: ${scanResult.advertisementData.serviceData}');
+      setState(() {
+        scanResults[scanResult.device.id] = scanResult;
+      });
+    }, onDone: _stopScan);
+
+    setState(() {
+      isScanning = true;
+    });
+  }
+
+  _stopScan() {
+    _scanSubscription?.cancel();
+    _scanSubscription = null;
+    setState(() {
+      isScanning = false;
+    });
+  }
+
+  _connect(BluetoothDevice d) async {
+    device = d;
+    // Connect to device
+    deviceConnection = _flutterBlue
+        .connect(device, timeout: const Duration(seconds: 4))
+        .listen(
+      null,
+      onDone: _disconnect,
+    );
+
+    // Update the connection state immediately
+    device.state.then((s) {
+      setState(() {
+        deviceState = s;
+      });
+    });
+
+    // Subscribe to connection changes
+    deviceStateSubscription = device.onStateChanged().listen((s) {
+      setState(() {
+        deviceState = s;
+      });
+      if (s == BluetoothDeviceState.connected) {
+        device.discoverServices().then((s) {
+          setState(() {
+            services = s;
+          });
+        });
+      }
+    });
+  }
+
+  _disconnect() {
+    // Remove all value changed listeners
+    valueChangedSubscriptions.forEach((uuid, sub) => sub.cancel());
+    valueChangedSubscriptions.clear();
+    deviceStateSubscription?.cancel();
+    deviceStateSubscription = null;
+    deviceConnection?.cancel();
+    deviceConnection = null;
+    setState(() {
+      device = null;
+    });
+  }
+
+
+
+
+
 //  String _platformVersion = 'Unknown';
   bool isPermissionGranted;
   Permission permission = Permission.AccessCoarseLocation;
@@ -49,31 +182,6 @@ class HomePageState extends State<HomePage> {
   int _selectedDrawerIndex = 0;
   int selectedOverride = 0;
   bool _bluetoothEnabled = false;
-
-//  @override
-//  initState() {
-//    super.initState();
-////    initPlatformState();
-//  }
-
-//  initPlatformState() async {
-//    String platformVersion;
-//    // Platform messages may fail, so we use a try/catch PlatformException.
-//    try {
-//      platformVersion = await FlutterSimplePermissions.platformVersion;
-//    } on PlatformException {
-//      platformVersion = 'Failed to get platform version.';
-//    }
-//
-//    // If the widget was removed from the tree while the asynchronous platform
-//    // message was in flight, we want to discard the reply rather than calling
-//    // setState to update our non-existent appearance.
-//    if (!mounted) return;
-//
-//    setState(() {
-//      _platformVersion = platformVersion;
-//    });
-//  }
 
 
   getDrawerItemWidget(int pos) {
@@ -106,20 +214,84 @@ class HomePageState extends State<HomePage> {
     Navigator.of(context).pop(); // close the drawer
   }
 
-  requestPermission() async {
+  _buildAlertTile() {
+    return new Container(
+      color: Colors.redAccent,
+      child: new ListTile(
+        title: new Text(
+          'Bluetooth adapter is ${state.toString().substring(15)}',
+          style: Theme.of(context).primaryTextTheme.subhead,
+        ),
+        trailing: new Icon(
+          Icons.error,
+          color: Theme.of(context).primaryTextTheme.subhead.color,
+        ),
+      ),
+    );
+  }
 
-    if (await FlutterSimplePermissions.checkPermission(permission)) {
-      isPermissionGranted = true;
+  _buildProgressBarTile() {
+    return new CircularProgressIndicator();
+  }
+
+  _buildScanResultTiles() {
+    return scanResults.values
+        .map((s) => new ListTile(
+      title: new Text(s.device.name),
+      subtitle: new Text(s.device.id.toString()),
+      leading: new Text(s.rssi.toString()),
+      onTap: () {
+        _connect(s.device);
+        connectedName = s.device.name+" Connected";
+        if(connectedName == null){
+          connectedName = "Unknown name";
+        }
+      }
+    ))
+        .toList();
+  }
+
+  _buildBluetoothOption(){
+
+    var connectTiles = new List<Widget>();
+    if (state == BluetoothState.off) {
+      connectTiles.add(_buildAlertTile());
     }
-    else {
-       if(await FlutterSimplePermissions.requestPermission(permission)){
-         isPermissionGranted = true;
-       } else {
-         isPermissionGranted = false;
-       }
-       }
-      print("Bluetooth location permission granted  $isPermissionGranted");
+    if (state == BluetoothState.on) {
+      connectTiles.addAll(_buildScanResultTiles());
     }
+
+    showDialog(context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            content: Stack(
+              children: <Widget>[
+                (isScanning) ? _buildProgressBarTile() : new Container(),
+                new GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                child: new ListView(
+                  padding: EdgeInsets.only(top: 30.0),
+                  children: connectTiles,
+                ),
+                ),
+                new Text(connectedName),
+              ],
+            ),
+            actions: <Widget>[
+              new FlatButton(onPressed: (){
+                _disconnect();
+//                Navigator.pop(context);
+              }, child: new Text("Disconnect")),
+              new FlatButton(onPressed: (){
+                Navigator.pop(context);
+              }, child: new Text("Exit")),
+
+            ],
+          );
+        }
+    );
+
+  }
 
 
   @override
@@ -156,7 +328,30 @@ class HomePageState extends State<HomePage> {
       value: _bluetoothEnabled,
     onChanged: (bool value) {
      setState(() {
-       requestPermission();
+       //if switch is green
+       if(_bluetoothEnabled = true) {
+         if(state == BluetoothState.on) {
+           if(deviceState == BluetoothDeviceState.disconnected) {
+             _startScan();
+             //bluetooth options will build alert tile if bluetooth not on
+             _buildBluetoothOption();
+           }
+           else{
+             _buildBluetoothOption();
+           }
+         }
+         else{
+           _buildBluetoothOption();
+         }
+       }
+       //if switch is red
+       if(_bluetoothEnabled = false){
+         if(isConnected) {
+           _disconnect();
+           Scaffold.of(context).showSnackBar(SnackBar(content:
+           new Text("Disconnected from device")));
+         }
+       }
        _bluetoothEnabled = value;
      });
       //check to see if bluetooth adapter is good
@@ -177,7 +372,7 @@ class HomePageState extends State<HomePage> {
           children: <Widget>[
 
             new UserAccountsDrawerHeader(
-                accountName: new Text("John Doe"), accountEmail: null),
+                accountName: new Text("John Snow"), accountEmail: new Text("JohnSnow@gmail.com")),
             new Column(children: drawerOptions)
           ],
         ),

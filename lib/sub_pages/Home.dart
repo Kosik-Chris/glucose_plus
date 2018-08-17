@@ -1,9 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:path/path.dart';
-import 'package:glucose_plus/main_pages/home_page.dart';
-import 'package:glucose_plus/sub_pages/ChartResults.dart';
-import 'package:glucose_plus/sub_pages/NewReading.dart';
-import 'package:glucose_plus/sub_pages/ChemicalConfig.dart';
+import 'package:flutter/services.dart';
 
 
 class Home extends StatefulWidget {
@@ -14,15 +12,54 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-   int _selectedDrawerIndex = 0;
+
+  static const MethodChannel methodChannel =
+  MethodChannel('samples.flutter.io/battery');
+  static const EventChannel eventChannel =
+  EventChannel('samples.flutter.io/charging');
+
+  String _batteryLevel = 'Battery level: unknown.';
+  String _chargingStatus = 'Battery status: unknown.';
+
+  Future<Null> _getBatteryLevel() async {
+    String batteryLevel;
+    try {
+      final int result = await methodChannel.invokeMethod('getBatteryLevel');
+      batteryLevel = 'Battery level: $result%.';
+    } on PlatformException {
+      batteryLevel = 'Failed to get battery level.';
+    }
+    setState(() {
+      _batteryLevel = batteryLevel;
+    });
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      _getBatteryLevel();
+    });
+    super.initState();
+    eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
+  }
+
+  void _onEvent(Object event) {
+    setState(() {
+      _getBatteryLevel();
+      _chargingStatus =
+      "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+    });
+  }
+
+  void _onError(Object error) {
+    setState(() {
+      _chargingStatus = 'Battery status: unknown.';
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-/*    return new Center(
-      child: new Text("Welcome home"),
-    );*/
-
-//FOR NOW ALL PICS JUST DROPPED INTO HERE
   return new MaterialApp(
       theme: new ThemeData(
       primaryColor: Colors.cyan,
@@ -42,7 +79,17 @@ class HomeState extends State<Home> {
                 image: AssetImage("sensor_pic.jpg"),
               ),
               titleSection,
-              scndSection
+              Container(
+                child: new Text("Current Device power settings",
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                    color: Colors.black
+                ),),
+              ),
+              new Text(_batteryLevel),
+              new Text(_chargingStatus),
+              scndSection,
             ],
           )
         ],
@@ -50,6 +97,8 @@ class HomeState extends State<Home> {
     ),
   );
   }
+  
+
 
   Widget titleSection = Container(
     padding: const EdgeInsets.all(32.0),
@@ -71,10 +120,7 @@ class HomeState extends State<Home> {
                 ),
               ),
               Text(
-                'Glucose+ functions in tandem with the Glucose+ chemical sensor'
-                    'device, based off Texas instruments LMP 15000. Ensure the '
-                    'device is nearby and utilize either the sidebar tabs or'
-                    'bellow buttons to access features.',
+                'Platform specific BLE implementation + infinite rx test.',
                 style: TextStyle(
                   color: Colors.black
                 ),
@@ -106,7 +152,7 @@ class HomeState extends State<Home> {
                 ),
               ),
               Text(
-                'Information here.',
+                'WHATS NEW: Bluetooth implementation.',
                 style: TextStyle(
                     color: Colors.black
                 ),
@@ -114,47 +160,6 @@ class HomeState extends State<Home> {
             ],
           ),
         ),
-      ],
-    ),
-  );
-
-  static Column buildButtonColumn(IconData icon, String label) {
-
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon),
-        Container(
-          margin: const EdgeInsets.only(top: 8.0),
-/*          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12.0,
-              fontWeight: FontWeight.w400,
-            ),
-          ),*/
-            child: RaisedButton(
-              padding: const EdgeInsets.all(8.0),
-              textColor: Colors.white,
-              color: Colors.blue,
-              onPressed: null,
-              child: new Text(label),
-
-            )
-        ),
-      ],
-    );
-  }
-
-  Widget buttonSection = Container(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-
-        buildButtonColumn(Icons.track_changes, 'New Reading'),
-        buildButtonColumn(Icons.local_bar, 'Chemical Config'),
-        buildButtonColumn(Icons.insert_chart, 'Chart Results'),
       ],
     ),
   );

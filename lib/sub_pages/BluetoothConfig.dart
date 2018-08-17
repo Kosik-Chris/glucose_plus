@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/main_pages/widgets.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:uuid/uuid.dart';
 
 class Bluetooth extends StatefulWidget{
+
+
   @override
   _BluetoothState createState() => _BluetoothState();
 }
 
 
 class _BluetoothState extends State<Bluetooth> {
+  List<int> items = List.generate(10, (i) => i);
   FlutterBlue _flutterBlue = FlutterBlue.instance;
+
+  //Read Uuid
+
+  //Write UUID
 
   /// Scanning
   StreamSubscription _scanSubscription;
@@ -28,6 +37,7 @@ class _BluetoothState extends State<Bluetooth> {
   StreamSubscription deviceStateSubscription;
   List<BluetoothService> services = new List();
   Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
+
   BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
 
 
@@ -49,6 +59,7 @@ class _BluetoothState extends State<Bluetooth> {
         state = s;
       });
     });
+
   }
 
   @override
@@ -57,8 +68,8 @@ class _BluetoothState extends State<Bluetooth> {
     _stateSubscription = null;
     _scanSubscription?.cancel();
     _scanSubscription = null;
-    deviceConnection?.cancel();
-    deviceConnection = null;
+//    deviceConnection?.cancel();
+//    deviceConnection = null;
     super.dispose();
   }
 
@@ -140,13 +151,18 @@ class _BluetoothState extends State<Bluetooth> {
 
   _readCharacteristic(BluetoothCharacteristic c) async {
     await device.readCharacteristic(c);
-    setState(() {});
+    print(c.value);
+    setState(() {
+    });
   }
 
   _writeCharacteristic(BluetoothCharacteristic c) async {
-    await device.writeCharacteristic(c, [0x12, 0x34],
+
+
+    await device.writeCharacteristic(c, [0x1, 0x1],
         type: CharacteristicWriteType.withResponse);
-    setState(() {});
+    setState(() {
+    });
   }
 
   _readDescriptor(BluetoothDescriptor d) async {
@@ -155,7 +171,7 @@ class _BluetoothState extends State<Bluetooth> {
   }
 
   _writeDescriptor(BluetoothDescriptor d) async {
-    await device.writeDescriptor(d, [0x12, 0x34]);
+    await device.writeDescriptor(d, [0x1, 0x1]);
     setState(() {});
   }
 
@@ -213,6 +229,7 @@ class _BluetoothState extends State<Bluetooth> {
     ))
         .toList();
   }
+
 //Widgets are flexible but highly nested!! declare variables elsewhere!!
   List<Widget> _buildServiceTiles() {
     return services
@@ -246,12 +263,42 @@ class _BluetoothState extends State<Bluetooth> {
 
   _buildActionButtons() {
     if (isConnected) {
-      return <Widget>[
-        new IconButton(
-          icon: const Icon(Icons.cancel),
-          onPressed: () => _disconnect(),
-        )
-      ];
+      return new ButtonBar(
+        children: <Widget>[
+          RaisedButton(
+            onPressed: (){
+              _disconnect();
+            },
+            child: Text("Disconnect"),
+          ),
+          RaisedButton(
+            onPressed: (){
+              //Use show dialog to get in infinite listview of read values?
+              showDialog(context: context,
+                builder: (BuildContext context){
+                return AlertDialog(
+
+                );
+                }
+              );
+            },
+            child: Text("Read"),
+          ),
+          RaisedButton(
+            onPressed: (){
+              //Use show dialog to send basic values to MCU
+              showDialog(context: context,
+                builder: (BuildContext context){
+                return AlertDialog(
+
+                );
+                }
+              );
+            },
+            child: Text("Write"),
+          ),
+        ],
+      );
     }
   }
 
@@ -286,29 +333,35 @@ class _BluetoothState extends State<Bluetooth> {
         ));
   }
 
-//  var outputField = new TextField(
-//    decoration: InputDecoration(
-//        border: InputBorder.none,
-//        hintText: 'Please enter values to send'
-//    ),
-//  );
+  _buildConnectedDeviceTile(){
 
-  _buildProgressBarTile() {
-    return new LinearProgressIndicator();
+    if(!isConnected) {
+      return new ListTile(
+          title: new Text('No device is connected'),
+
+      );
+    }
+    if(isConnected){
+      return new ListTile(
+          leading: (deviceState == BluetoothDeviceState.connected)
+              ? const Icon(Icons.bluetooth_connected)
+              : const Icon(Icons.bluetooth_disabled),
+        title: new Text('Device is ${deviceState.toString().split(',')[0]}.'),
+      );
+    }
+    else{
+      return new ListTile(
+        title: new Text("Device disconnected"),
+      );
+    }
   }
 
-//  _buildWriteOutput(){
-//    outputField;
-//  }
-//
-//  _buildReadInput(){
-//    return new TextField(
-//      decoration: InputDecoration(
-//          border: InputBorder.none,
-//          hintText: 'Please enter values to send'
-//      ),
-//    );
-//  }
+
+  _buildProgressBarTile() {
+    return new CircularProgressIndicator();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -322,8 +375,10 @@ class _BluetoothState extends State<Bluetooth> {
     if (isConnected) {
       connectTiles.add(_buildDeviceStateTile());
       connectTiles.addAll(_buildServiceTiles());
+      connectTiles.add(_buildActionButtons());
 //      connectTiles.add(_buildActionButtons());
     } else {
+      connectTiles.add(_buildConnectedDeviceTile());
       connectTiles.addAll(_buildScanResultTiles());
     }
     return new MaterialApp(
