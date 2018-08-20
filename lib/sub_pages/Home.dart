@@ -23,15 +23,17 @@ class HomeState extends State<Home> {
 
   Future<Null> _getBatteryLevel() async {
     String batteryLevel;
-    try {
-      final int result = await methodChannel.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery level: $result%.';
-    } on PlatformException {
-      batteryLevel = 'Failed to get battery level.';
-    }
+    if (_batteryLevel != null){
+      try {
+        final int result = await methodChannel.invokeMethod('getBatteryLevel');
+        batteryLevel = 'Battery level: $result%.';
+      } on PlatformException {
+        batteryLevel = 'Failed to get battery level.';
+      }
     setState(() {
       _batteryLevel = batteryLevel;
     });
+  }
   }
 
   @override
@@ -44,17 +46,32 @@ class HomeState extends State<Home> {
   }
 
   void _onEvent(Object event) {
-    setState(() {
-      _getBatteryLevel();
-      _chargingStatus =
-      "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
-    });
+    //prevent memory leak
+    if(_batteryLevel != null) {
+      setState(() {
+        _getBatteryLevel();
+        _chargingStatus =
+        "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+      });
+    }
   }
 
   void _onError(Object error) {
-    setState(() {
-      _chargingStatus = 'Battery status: unknown.';
-    });
+    if(_batteryLevel != null) {
+      setState(() {
+        _chargingStatus = 'Battery status: unknown.';
+      });
+    }
+  }
+
+  void dispose() {
+    //TODO: Dispose Battery level operations properly
+    _batteryLevel = null;
+    _chargingStatus = null;
+    super.dispose();
+
+
+
   }
 
 

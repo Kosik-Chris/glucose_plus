@@ -16,9 +16,15 @@ class Bluetooth extends StatefulWidget{
 class _BluetoothState extends State<Bluetooth> {
   List<int> items = List.generate(10, (i) => i);
   FlutterBlue _flutterBlue = FlutterBlue.instance;
+  List<String> readChar;
+  String readValue = "temp";
+
 
   //Read Uuid
 
+//  BluetoothCharacteristic readCharacter = new
+//  BluetoothCharacteristic(uuid: null, serviceUuid: 6e400001-b5a3-f393-e0a9-e50e24dcca9e, descriptors: null,
+//      properties: null);
   //Write UUID
 
   /// Scanning
@@ -151,7 +157,8 @@ class _BluetoothState extends State<Bluetooth> {
 
   _readCharacteristic(BluetoothCharacteristic c) async {
     await device.readCharacteristic(c);
-    print(c.value);
+    readChar.add(c.value.toString());
+    print(c.value.toString());
     setState(() {
     });
   }
@@ -261,6 +268,13 @@ class _BluetoothState extends State<Bluetooth> {
         .toList();
   }
 
+//  Future<List<String>> _getReadData() async {
+//    var reads = new List<String>();
+//    reads.add(device.readCharacteristic(0x123).toString());
+//    return reads;
+//
+//  }
+
   _buildActionButtons() {
     if (isConnected) {
       return new ButtonBar(
@@ -277,7 +291,15 @@ class _BluetoothState extends State<Bluetooth> {
               showDialog(context: context,
                 builder: (BuildContext context){
                 return AlertDialog(
+                  content: new Text(readValue),
+                  actions: <Widget>[
+                    new FlatButton(onPressed: (){
 
+                    }, child: Text("Read")),
+                    new FlatButton(onPressed: (){
+                      Navigator.pop(context);
+                    }, child: Text("Exit"))
+                  ],
                 );
                 }
               );
