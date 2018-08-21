@@ -556,7 +556,6 @@ class NewChemConfigDialogueState extends State<NewChemConfigDialogue>{
               decoration: InputDecoration(
                   labelText: 'Enter ConcentrationUnits'
               ),
-              keyboardType: TextInputType.number,
               onSaved: (val) => chemicalsFire.concentrationUnits = val,
               validator: (val) => val == "" ? val : null,
             ),

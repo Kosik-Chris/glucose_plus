@@ -3,7 +3,7 @@ import 'package:glucose_plus/sub_pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/sub_pages/NewReadingResult.dart';
 import 'package:path/path.dart';
-import 'package:glucose_plus/sub_pages/BluetoothConfig.dart';
+import 'package:glucose_plus/Connection/BluetoothController.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
 import 'package:glucose_plus/record_pages/units.dart';
@@ -12,23 +12,23 @@ import 'package:glucose_plus/dialogue_pages/OtherGraphDialog.dart';
 import 'package:glucose_plus/dialogue_pages/TimeGraphDialog.dart';
 
 
-class DrawerItem {
-  String title;
-  IconData icon;
-  DrawerItem(this.title, this.icon);
-}
-
 class NewReading extends StatefulWidget {
 
-  NewReading({Key key, this.title}) : super(key: key);
-  final String title;
+  final BluetoothControl blueControl;
+  NewReading( this.blueControl);
+
 
   State<StatefulWidget> createState() {
-    return new NewReadingMainState();
+    return new NewReadingMainState(blueControl);
   }
 }
 
   class NewReadingMainState extends State<NewReading> {
+
+  BluetoothControl blueControl;
+    NewReadingMainState(
+        this.blueControl
+        );
 
     Chemicals _selectedChemical;
     Units _selectedUnit;
@@ -92,26 +92,6 @@ class NewReading extends StatefulWidget {
       return selectedGraph;
     }
 
-    FlutterBlue _flutterBlue = FlutterBlue.instance;
-
-    /// State
-    StreamSubscription _stateSubscription;
-    BluetoothState state = BluetoothState.unknown;
-
-    /// Scanning
-    StreamSubscription _scanSubscription;
-    Map<DeviceIdentifier, ScanResult> scanResults = new Map();
-    bool isScanning = false;
-
-    /// Device
-    BluetoothDevice device;
-    bool get isConnected => (device != null);
-    StreamSubscription deviceConnection;
-    StreamSubscription deviceStateSubscription;
-    List<BluetoothService> services = new List();
-    Map<Guid, StreamSubscription> valueChangedSubscriptions = {};
-    BluetoothDeviceState deviceState = BluetoothDeviceState.disconnected;
-
 
     @override
     void initState() {
@@ -119,27 +99,27 @@ class NewReading extends StatefulWidget {
 
 
       // Immediately get the state of FlutterBlue
-      _flutterBlue.state.then((s) {
+      blueControl.flutterBlue.state.then((s) {
         setState(() {
-          state = s;
+          blueControl.state = s;
         });
       });
       // Subscribe to state changes
-      _stateSubscription = _flutterBlue.onStateChanged().listen((s) {
+      blueControl.stateSubscription = blueControl.flutterBlue.onStateChanged().listen((s) {
         setState(() {
-          state = s;
+          blueControl.state = s;
         });
       });
     }
 
     @override
     void dispose() {
-      _stateSubscription?.cancel();
-      _stateSubscription = null;
-      _scanSubscription?.cancel();
-      _scanSubscription = null;
-      deviceConnection?.cancel();
-      deviceConnection = null;
+      blueControl.stateSubscription?.cancel();
+      blueControl.stateSubscription = null;
+      blueControl.scanSubscription?.cancel();
+      blueControl.scanSubscription = null;
+//      deviceConnection?.cancel();
+//      deviceConnection = null;
       super.dispose();
     }
 
@@ -237,15 +217,13 @@ class NewReading extends StatefulWidget {
             backgroundColor: const Color(0xFF0099ed),
             child: Icon(Icons.track_changes),
             onPressed: (){
-//            checkBlueTooth();
+            checkBlueTooth(context);
 //            sendChemSelect();
 //            receiveValues();
 //            buildOutput();
 
               //User can select whether to save, send, discard.
               //Add other features later.
-              Navigator.push(
-                  context, MaterialPageRoute(builder: (context) => LoadingPage()));
             }
 
         ),
@@ -307,29 +285,29 @@ class NewReading extends StatefulWidget {
       )
           );
     }
+//
+//    Future _openFrequencyDialogue() async{
+//
+//    }
+//
+//    Future _openTimeDialogue() async{
+//
+//    }
+//
+//    Future _openOtherDialogue() async{
+//
+//    }
 
-    Future _openFrequencyDialogue() async{
-
-    }
-
-    Future _openTimeDialogue() async{
-
-    }
-
-    Future _openOtherDialogue() async{
-
-    }
 
 
-
-    checkBlueTooth(){
-    //TODO GIT GUD at BLE
-      if(isConnected == true){
+    checkBlueTooth(BuildContext context){
+      if(blueControl.isConnected == true){
         //proceed
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => LoadingPage()));
       }
       else{
-
-
+          return;
       }
   }
   sendChemSelect(){

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mailer3/mailer3.dart';
 import 'dart:io';
 import 'package:glucose_plus/mailer.dart';
+import 'package:glucose_plus/sub_pages/send_email.dart';
 
 class Export extends StatefulWidget {
 

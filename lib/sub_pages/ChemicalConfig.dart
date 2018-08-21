@@ -54,6 +54,7 @@ class ChemicalsMainState extends State<ChemicalsMain> {
 
   _deleteEntry(index){
     chemicals.removeAt(index);
+    chemRef.child(chemicals[index].key).remove();
   }
 
   _onEntryEdited(Event event) {

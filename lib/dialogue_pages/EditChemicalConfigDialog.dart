@@ -7,13 +7,10 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:glucose_plus/Connection/ChemicalsFire.dart';
 
 class EditChemConfigDialog extends StatefulWidget{
-  final String initialTitle;
   final ChemicalsFire chemicalToEdit;
 
-  EditChemConfigDialog.add(this.initialTitle) : chemicalToEdit = null;
 
-  EditChemConfigDialog.edit(this.chemicalToEdit)
-  : initialTitle = chemicalToEdit.title;
+  EditChemConfigDialog.edit(this.chemicalToEdit);
 
   @override
   EditChemConfigDialogState createState(){
@@ -25,12 +22,12 @@ class EditChemConfigDialog extends StatefulWidget{
       chemicalToEdit.concentrationUnits,chemicalToEdit.currTimeSamplePeriod,
         chemicalToEdit.gain,chemicalToEdit.graphType,chemicalToEdit.loadResistor,
         chemicalToEdit.mode,chemicalToEdit.refSource,chemicalToEdit.reference,
-        chemicalToEdit.voltCurrSamplePeriod
+        chemicalToEdit.voltCurrSamplePeriod,chemicalToEdit
       );
     }
     else{
       return new EditChemConfigDialogState(null,null,null,null,null,null,null,
-      null,null,null,null,null,null,null,null,null,null);
+      null,null,null,null,null,null,null,null,null,null,null);
     }
   }
 
@@ -40,7 +37,7 @@ class EditChemConfigDialog extends StatefulWidget{
   class EditChemConfigDialogState extends State<EditChemConfigDialog>{
 
     String _reference;
-
+    ChemicalsFire chemicalToEdit;
 
     EditChemConfigDialogState(this._titleDetail, this._amountDetail, this._amountUnitsDetail,
         this._autoCalibrateDetail,this._biasSignDetail,this._biasVoltageDetail,
@@ -49,7 +46,8 @@ class EditChemConfigDialog extends StatefulWidget{
         this._currTimeSamplePeriodDetail,
         this._gainDetail,this._graphTypeDetail,this._loadResistorDetail,
         this._modeDetail,this._refSourceDetail,
-        this._reference,this._voltCurrSamplePeriodDetail);
+        this._reference,this._voltCurrSamplePeriodDetail,
+        this.chemicalToEdit);
 
 
     final titleController = TextEditingController();
@@ -83,7 +81,6 @@ class EditChemConfigDialog extends StatefulWidget{
     String _concentrationUnitsDetail = "Empty";
 
     List<ChemicalsFire> chemicals = List();
-    ChemicalsFire chemicalsFire;
     DatabaseReference chemRef;
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -91,8 +88,6 @@ class EditChemConfigDialog extends StatefulWidget{
     @override
     void initState() {
       super.initState();
-      chemicalsFire = ChemicalsFire("", "", "", "", "", "", "", "", "", "", "",
-          "", "", "", "", "","");
       chemRef = FirebaseDatabase.instance.reference().child('chemicals');
     }
 
@@ -100,25 +95,25 @@ class EditChemConfigDialog extends StatefulWidget{
 
     void handleSubmit(){
       final FormState form = formKey.currentState;
-
-      chemicalsFire.title = _titleDetail;
-      chemicalsFire.amount = _amountDetail;
-      chemicalsFire.amountUnits = _amountUnitsDetail;
-      chemicalsFire.chemical = _chemicalDetail;
-      chemicalsFire.concentration = _concentrationDetail;
-      chemicalsFire.concentrationUnits = _concentrationUnitsDetail;
-      chemicalsFire.voltCurrSamplePeriod = _voltCurrSamplePeriodDetail;
-      chemicalsFire.currTimeSamplePeriod = _currTimeSamplePeriodDetail;
-      chemicalsFire.autoCalibrate = _autoCalibrateDetail;
-      chemicalsFire.biasSign = _biasSignDetail;
-      chemicalsFire.biasVoltage = _biasVoltageDetail;
-      chemicalsFire.gain = _gainDetail;
-      chemicalsFire.graphType = _graphTypeDetail;
-      chemicalsFire.loadResistor = _loadResistorDetail;
-      chemicalsFire.reference = _reference;
-      chemicalsFire.mode = _modeDetail;
-      chemicalsFire.refSource = _refSourceDetail;
-      chemRef.push().set(chemicalsFire.toJson());
+      chemicalToEdit.title = _titleDetail;
+      chemicalToEdit.amount = _amountDetail;
+      chemicalToEdit.amountUnits = _amountUnitsDetail;
+      chemicalToEdit.chemical = _chemicalDetail;
+      chemicalToEdit.concentration = _concentrationDetail;
+      chemicalToEdit.concentrationUnits = _concentrationUnitsDetail;
+      chemicalToEdit.voltCurrSamplePeriod = _voltCurrSamplePeriodDetail;
+      chemicalToEdit.currTimeSamplePeriod = _currTimeSamplePeriodDetail;
+      chemicalToEdit.autoCalibrate = _autoCalibrateDetail;
+      chemicalToEdit.biasSign = _biasSignDetail;
+      chemicalToEdit.biasVoltage = _biasVoltageDetail;
+      chemicalToEdit.gain = _gainDetail;
+      chemicalToEdit.graphType = _graphTypeDetail;
+      chemicalToEdit.loadResistor = _loadResistorDetail;
+      chemicalToEdit.reference = _reference;
+      chemicalToEdit.mode = _modeDetail;
+      chemicalToEdit.refSource = _refSourceDetail;
+//      chemRef.push().set(chemicalToEdit.toJson());
+    chemRef.child(chemicalToEdit.key).set(chemicalToEdit.toJson());
     }
 
     Widget _bottomNavBar(BuildContext context){
@@ -310,7 +305,7 @@ class EditChemConfigDialog extends StatefulWidget{
                 decoration: InputDecoration(
                     labelText: 'Enter New Title'
                 ),
-                onSaved: (val) => chemicalsFire.title = val,
+                onSaved: (val) => chemicalToEdit.title = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -339,7 +334,7 @@ class EditChemConfigDialog extends StatefulWidget{
                     labelText: 'Enter New Amount'
                 ),
                 keyboardType: TextInputType.number,
-                onSaved: (val) => chemicalsFire.amount = val,
+                onSaved: (val) => chemicalToEdit.amount = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -366,7 +361,7 @@ class EditChemConfigDialog extends StatefulWidget{
                 decoration: InputDecoration(
                     labelText: 'Enter New Units'
                 ),
-                onSaved: (val) => chemicalsFire.amountUnits = val,
+                onSaved: (val) => chemicalToEdit.amountUnits = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -567,7 +562,7 @@ class EditChemConfigDialog extends StatefulWidget{
                     labelText: 'Enter Concentration'
                 ),
                 keyboardType: TextInputType.number,
-                onSaved: (val) => chemicalsFire.concentration = val,
+                onSaved: (val) => chemicalToEdit.concentration = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -594,8 +589,7 @@ class EditChemConfigDialog extends StatefulWidget{
                 decoration: InputDecoration(
                     labelText: 'Enter ConcentrationUnits'
                 ),
-                keyboardType: TextInputType.number,
-                onSaved: (val) => chemicalsFire.concentrationUnits = val,
+                onSaved: (val) => chemicalToEdit.concentrationUnits = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -622,7 +616,7 @@ class EditChemConfigDialog extends StatefulWidget{
                 decoration: InputDecoration(
                     labelText: 'Enter Chemical'
                 ),
-                onSaved: (val) => chemicalsFire.chemical = val,
+                onSaved: (val) => chemicalToEdit.chemical = val,
                 validator: (val) => val == "" ? val : null,
               ),
               actions: <Widget>[
@@ -650,7 +644,7 @@ class EditChemConfigDialog extends StatefulWidget{
                 decoration: InputDecoration(
                     labelText: 'Enter value from 1-1000 (milliseconds)'
                 ),
-                onSaved: (val) => chemicalsFire.amount = val,
+                onSaved: (val) => chemicalToEdit.amount = val,
                 validator: (val) => val == "" ? val : null,
                 keyboardType: TextInputType.number,
               ),
