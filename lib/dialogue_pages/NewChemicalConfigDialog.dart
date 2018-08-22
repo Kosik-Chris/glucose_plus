@@ -2,7 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/sub_pages/ChemicalConfig.dart';
-import 'package:glucose_plus/Connection/ChemicalsFire.dart';
+import 'package:glucose_plus/Connection/Firebase/ChemicalsFire.dart';
 
 class NewChemConfigDialogue extends StatefulWidget {
 
@@ -47,6 +47,7 @@ class NewChemConfigDialogueState extends State<NewChemConfigDialogue>{
   List<ChemicalsFire> chemicals = List();
   ChemicalsFire chemicalsFire;
   DatabaseReference chemRef;
+  FirebaseDatabase database = FirebaseDatabase.instance;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -56,6 +57,8 @@ class NewChemConfigDialogueState extends State<NewChemConfigDialogue>{
     chemicalsFire = ChemicalsFire("", "", "", "", "", "", "", "", "", "", "",
         "", "", "", "", "","");
     chemRef = FirebaseDatabase.instance.reference().child('chemicals');
+    database.setPersistenceEnabled(true);
+    database.setPersistenceCacheSizeBytes(10000000);
   }
 
 

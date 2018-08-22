@@ -8,7 +8,7 @@ import 'package:glucose_plus/sub_pages/NewReading.dart';
 import 'package:glucose_plus/sub_pages/Home.dart';
 import 'package:flutter_simple_permissions/flutter_simple_permissions.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:glucose_plus/Connection/BluetoothController.dart';
+import 'package:glucose_plus/Connection/Bluetooth_Middleware/BluetoothController.dart';
 import 'dart:async';
 
 

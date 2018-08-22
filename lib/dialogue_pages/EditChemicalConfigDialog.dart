@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:numberpicker/numberpicker.dart';
-import 'package:glucose_plus/Connection/ChemicalsFire.dart';
+import 'package:glucose_plus/Connection/Firebase/ChemicalsFire.dart';
 
 class EditChemConfigDialog extends StatefulWidget{
   final ChemicalsFire chemicalToEdit;
@@ -82,6 +82,7 @@ class EditChemConfigDialog extends StatefulWidget{
 
     List<ChemicalsFire> chemicals = List();
     DatabaseReference chemRef;
+    FirebaseDatabase database = FirebaseDatabase.instance;
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -89,6 +90,8 @@ class EditChemConfigDialog extends StatefulWidget{
     void initState() {
       super.initState();
       chemRef = FirebaseDatabase.instance.reference().child('chemicals');
+      database.setPersistenceEnabled(true);
+      database.setPersistenceCacheSizeBytes(10000000);
     }
 
 

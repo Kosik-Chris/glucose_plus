@@ -3,7 +3,7 @@ import 'package:glucose_plus/sub_pages/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:glucose_plus/sub_pages/NewReadingResult.dart';
 import 'package:path/path.dart';
-import 'package:glucose_plus/Connection/BluetoothController.dart';
+import 'package:glucose_plus/Connection/Bluetooth_Middleware/BluetoothController.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/record_pages/chemical_list.dart';
 import 'package:glucose_plus/record_pages/units.dart';

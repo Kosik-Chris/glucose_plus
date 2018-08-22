@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
 import 'package:glucose_plus/main_pages/widgets.dart';
-import 'package:glucose_plus/Connection/BluetoothController.dart';
+import 'package:glucose_plus/Connection/Bluetooth_Middleware/BluetoothController.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:uuid/uuid.dart';

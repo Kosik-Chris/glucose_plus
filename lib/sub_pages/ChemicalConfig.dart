@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:glucose_plus/Connection/ChemicalsFire.dart';
+import 'package:glucose_plus/Connection/Firebase/ChemicalsFire.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,6 +23,7 @@ class ChemicalsMainState extends State<ChemicalsMain> {
   List<ChemicalsFire> chemicals = List();
   ChemicalsFire chemicalsFire;
   DatabaseReference chemRef;
+  FirebaseDatabase database = FirebaseDatabase.instance;
   double _itemExtent = 50.0;
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -36,6 +37,8 @@ class ChemicalsMainState extends State<ChemicalsMain> {
     chemRef.onChildAdded.listen(_onEntryAdded);
     chemRef.onChildChanged.listen(_onEntryEdited);
     chemRef.onChildRemoved.listen(_onEntryDeleted);
+    database.setPersistenceEnabled(true);
+    database.setPersistenceCacheSizeBytes(10000000);
   }
 
   _onEntryAdded(Event event) {

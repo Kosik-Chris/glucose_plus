@@ -26,6 +26,9 @@ dependencies:
   firebase_core: ^0.2.5
   firebase_database: ^1.0.3
   numberpicker: ^0.1.5
+  redux: ^3.0.0
+  firebase_storage: ^1.0.2
+  image_picker: ^0.4.7
 
 
 dev_dependencies:
