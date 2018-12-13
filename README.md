@@ -1,8 +1,3 @@
 # glucose_plus
+Electrochemical Sensing application. Porting this app from the Android version. Now that there is a stable version of flutter work will continue.
 
-A new Flutter application.
-
-## Getting Started
-
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
